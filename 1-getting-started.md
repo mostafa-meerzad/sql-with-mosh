@@ -1,16 +1,64 @@
-# What is a DATABASE
+# SQL with Mosh
 
-Is a collection of data stored in a format that can be easily accessed.
+## 1. **What is a Database?**
 
-a DBMS is used to manage databases, it is software application that takes instruction for querying or modifying data then interprets/executes it and sends results back.
+Think of a **database** as a super-organized digital filing cabinet.
 
-DBMS are 2 categories:
+- Instead of storing paper files in folders, we store **data** (like customer names, emails, products, transactions, etc.) in digital form.
+- A database isn’t just storage — it’s also about **managing** that data: making sure it’s easy to **find, update, secure, and back up**.
 
-1. Relational DBMS.
-   stores data in specific tables and connected via relations.
-   uses Structured Query Language (SQL) for interacting with database
-2. NonRelational DBMS.
+👉 Quick check: Can you think of a real-life example of a “database” you use daily, even if it’s not called that?
 
-## Install MySQL server
+---
 
-Just follow the instructions given by MySQL server installer.
+## 2. **What is SQL?**
+
+SQL stands for **Structured Query Language**.
+
+- It’s like the language we use to “talk” to a database.
+- With SQL, we can:
+
+  - **Create** tables (like setting up new folders in the cabinet).
+  - **Insert** data (putting new files inside).
+  - **Query** data (searching for a specific file).
+  - **Update** data (editing a file).
+  - **Delete** data (removing a file).
+
+Example SQL command:
+
+```sql
+SELECT name, email FROM users WHERE age > 18;
+```
+
+This means: _“Show me the names and emails of all users older than 18.”_
+
+---
+
+## 3. **SQL vs NoSQL**
+
+Now, not all databases work the same way. The two big families are:
+
+### **SQL Databases (Relational Databases)**
+
+- Data stored in **tables** (rows & columns).
+- Every table has a clear **structure** (schema).
+- Great for data that fits into a structured, predictable format.
+- Examples: **MySQL, PostgreSQL, SQL Server, Oracle**.
+
+### **NoSQL Databases**
+
+- Data is more **flexible** — no strict tables.
+- Can store data as documents, key-value pairs, graphs, or wide columns.
+- Great for unstructured or rapidly changing data.
+- Examples: **MongoDB, Redis, Cassandra, Neo4j**.
+
+---
+
+🔑 **Quick Comparison**:
+
+| Feature   | SQL (Relational)           | NoSQL (Non-Relational)             |
+| --------- | -------------------------- | ---------------------------------- |
+| Structure | Tables with rows & columns | Documents, key-value, graphs, etc. |
+| Schema    | Fixed, must be defined     | Flexible, can change anytime       |
+| Best For  | Banking, ecommerce, CRM    | Social media, real-time apps, IoT  |
+| Examples  | MySQL, PostgreSQL          | MongoDB, Firebase, Redis           |
