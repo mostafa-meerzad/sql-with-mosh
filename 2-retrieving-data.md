@@ -276,3 +276,77 @@ LIMIT 5;
 ---
 
 👉 Do you want me to **draw up a mini “practice database table” (like a sample `users` or `orders` table)** so we can write and test example queries on it together? That way each new concept gets applied to real data.
+
+
+
+
+## 1. **The `WHERE` Clause**
+
+The `WHERE` clause is used to **filter rows** from a table — only rows that meet the condition(s) will be returned.
+Think of it as the **gatekeeper**:
+
+* If the condition is **true**, the row passes through.
+* If the condition is **false**, the row is excluded.
+
+### Example:
+
+```sql
+SELECT name, age
+FROM users
+WHERE age > 18;
+```
+
+👉 Only users older than 18 will be shown.
+
+---
+
+### Common `WHERE` Operators:
+
+* `=` → Equal
+* `<>` or `!=` → Not equal
+* `>` → Greater than
+* `<` → Less than
+* `>=` → Greater than or equal
+* `<=` → Less than or equal
+* `BETWEEN a AND b` → Value in a range
+* `IN (val1, val2, ...)` → Value matches one from a list
+* `LIKE` → Pattern matching (`%` = wildcard, `_` = single char)
+* `IS NULL` / `IS NOT NULL` → Check for empty values
+
+---
+
+## 2. **What does `<>` mean?**
+
+The operator `<>` means **“NOT EQUAL TO”** in SQL.
+It’s the same as `!=` (but `<>` is more “standard SQL”).
+
+### Example:
+
+```sql
+SELECT name, country
+FROM users
+WHERE country <> 'USA';
+```
+
+👉 Returns all users **except** those from the USA.
+
+Another example:
+
+```sql
+SELECT *
+FROM products
+WHERE price <> 100;
+```
+
+👉 Shows all products where the price is anything **other than 100**.
+
+---
+
+✅ **Quick recap:**
+
+* `WHERE` → filters rows
+* `<>` → “not equal” operator
+
+---
+
+Would you like me to also explain **how multiple conditions work in `WHERE`** using `AND`, `OR`, and `NOT` (kind of like combining filters in real life), or should we stay with simple conditions for now?
