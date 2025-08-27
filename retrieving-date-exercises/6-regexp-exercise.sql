@@ -20,3 +20,18 @@ SELECT * FROM customers
 WHERE last_name REGEXP "B[RU]"
 
 
+SELECT *
+FROM orders
+WHERE shipper_id IS NULL
+
+
+SELECT *
+FROM customers
+-- LIMIT 5 OFFSET 3
+LIMIT 5, 3
+
+
+SELECT *
+FROM customers
+ORDER BY points DESC
+LIMIT 5

@@ -100,6 +100,14 @@ FROM table_name
   LIMIT 10 OFFSET 5
   ```
 
+or
+
+```sql
+LIMIT 10, 5
+```
+
+it means: skip `10` first items and then only select `5` items
+
 ---
 
 ## 4. **Correct Order of Clauses (SQL Syntax Order)**
@@ -277,18 +285,15 @@ LIMIT 5;
 
 👉 Do you want me to **draw up a mini “practice database table” (like a sample `users` or `orders` table)** so we can write and test example queries on it together? That way each new concept gets applied to real data.
 
-
-
-
 ## 1. **The `WHERE` Clause**
 
 The `WHERE` clause is used to **filter rows** from a table — only rows that meet the condition(s) will be returned.
 Think of it as the **gatekeeper**:
 
-* If the condition is **true**, the row passes through.
-* If the condition is **false**, the row is excluded.
+- If the condition is **true**, the row passes through.
+- If the condition is **false**, the row is excluded.
 
-### Example:
+### Example
 
 ```sql
 SELECT name, age
@@ -300,18 +305,18 @@ WHERE age > 18;
 
 ---
 
-### Common `WHERE` Operators:
+### Common `WHERE` Operators
 
-* `=` → Equal
-* `<>` or `!=` → Not equal
-* `>` → Greater than
-* `<` → Less than
-* `>=` → Greater than or equal
-* `<=` → Less than or equal
-* `BETWEEN a AND b` → Value in a range
-* `IN (val1, val2, ...)` → Value matches one from a list
-* `LIKE` → Pattern matching (`%` = wildcard, `_` = single char)
-* `IS NULL` / `IS NOT NULL` → Check for empty values
+- `=` → Equal
+- `<>` or `!=` → Not equal
+- `>` → Greater than
+- `<` → Less than
+- `>=` → Greater than or equal
+- `<=` → Less than or equal
+- `BETWEEN a AND b` → Value in a range
+- `IN (val1, val2, ...)` → Value matches one from a list
+- `LIKE` → Pattern matching (`%` = wildcard, `_` = single char)
+- `IS NULL` / `IS NOT NULL` → Check for empty values
 
 ---
 
@@ -320,7 +325,7 @@ WHERE age > 18;
 The operator `<>` means **“NOT EQUAL TO”** in SQL.
 It’s the same as `!=` (but `<>` is more “standard SQL”).
 
-### Example:
+### Example
 
 ```sql
 SELECT name, country
@@ -344,9 +349,158 @@ WHERE price <> 100;
 
 ✅ **Quick recap:**
 
-* `WHERE` → filters rows
-* `<>` → “not equal” operator
+- `WHERE` → filters rows
+- `<>` → “not equal” operator
 
 ---
 
-Would you like me to also explain **how multiple conditions work in `WHERE`** using `AND`, `OR`, and `NOT` (kind of like combining filters in real life), or should we stay with simple conditions for now?
+## 1. **`BETWEEN`**
+
+Checks if a value falls **within a range** (inclusive of boundaries).
+
+### Syntax
+
+```sql
+value BETWEEN low AND high
+```
+
+### Example
+
+```sql
+SELECT name, age
+FROM users
+WHERE age BETWEEN 18 AND 30;
+```
+
+👉 Returns users **18, 19, …, 30** years old.
+
+⚡ Same as:
+
+```sql
+age >= 18 AND age <= 30
+```
+
+---
+
+## 2. **`LIKE`**
+
+Used for **pattern matching** in text.
+
+- `%` → wildcard for **any number of characters**
+- `_` → wildcard for **a single character**
+
+### Examples
+
+```sql
+SELECT name
+FROM users
+WHERE name LIKE 'A%';
+```
+
+👉 Names starting with "A" (`Alice`, `Adam`, `Aria`).
+
+```sql
+SELECT name
+FROM users
+WHERE name LIKE '%son';
+```
+
+👉 Names ending in "son" (`Jackson`, `Emerson`).
+
+```sql
+SELECT name
+FROM users
+WHERE name LIKE 'J_n';
+```
+
+👉 Names with 3 letters, starting with J and ending with n (`Jon`, `Jan`).
+
+---
+
+## 3. **`REGEXP` (Regular Expressions)**
+
+`LIKE` is limited — for complex patterns, SQL supports regex (in **MySQL** and **PostgreSQL**).
+
+### REGEXP special characters
+
+1. `^` at the beginning of a string
+2. `$` at the end of a string, this character goes on the right-side of the pattern you want to match
+3. `.` a single character
+4. `[abcd]` a list of characters for a single character match
+5. `[a-f]` a range of characters from `a` to `f`
+6. `*` 0 or many
+7. `+` 1 or many
+8.
+
+### Example
+
+```sql
+SELECT name
+FROM users
+WHERE name REGEXP '^A';
+```
+
+👉 Names starting with "A".
+
+```sql
+SELECT name
+FROM users
+WHERE name REGEXP 'son$';
+```
+
+👉 Names ending with "son".
+
+```sql
+SELECT name
+FROM users
+WHERE name REGEXP '^[J|K]';
+```
+
+👉 Names starting with **J or K**.
+
+⚡ Regex is much more flexible than `LIKE` (e.g., you can match multiple rules at once).
+
+---
+
+## 4. **`IS NULL` and `IS NOT NULL`**
+
+In SQL, `NULL` means **no value / missing data**.
+You can’t use `= NULL`, you must use `IS NULL`.
+
+### Example
+
+```sql
+SELECT name, email
+FROM users
+WHERE email IS NULL;
+```
+
+👉 Finds users with **no email**.
+
+```sql
+SELECT name, email
+FROM users
+WHERE email IS NOT NULL;
+```
+
+👉 Finds users **with an email address**.
+
+---
+
+## 5. ⚡ All Together Example
+
+```sql
+SELECT name, age, email
+FROM users
+WHERE age BETWEEN 20 AND 40
+  AND name LIKE '%son'
+  AND email IS NOT NULL
+  AND country REGEXP '^(USA|Canada)$';
+```
+
+👉 Meaning:
+
+- Age between 20–40
+- Name ending with "son"
+- Must have an email
+- Country is either USA or Canada (via regex)
