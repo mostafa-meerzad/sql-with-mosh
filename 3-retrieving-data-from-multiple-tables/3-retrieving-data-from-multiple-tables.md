@@ -393,3 +393,31 @@ If you just wrote `SELECT name` without prefixes, SQL wouldn’t know whether yo
 - A **self-join** is just a regular join, but with the _same_ table on both sides.
 - Use **aliases** to treat them as two tables.
 - Very useful for hierarchical or relational data inside one table.
+
+## Joining Multiple Tables
+
+to join more that two tables you simply use the `JOIN` clause
+
+```sql
+
+SELECT your_selection
+FROM table_one
+JOIN table_tow
+  ON first_condition
+JOIN table_three
+  ON second_condition
+
+```
+
+and the same pattern repeats in case you need to join many many tables, which by the way is not uncommon.
+
+```sql
+USE sql_store;
+SELECT o.order_id, o.order_date, c.first_name, c.last_name, os.name AS status
+FROM orders o
+JOIN customers c
+  ON o.customer_id = c.customer_id
+JOIN order_statuses os
+  ON o.status = os.order_status_id
+
+```
