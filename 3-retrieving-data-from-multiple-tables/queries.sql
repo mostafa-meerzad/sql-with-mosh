@@ -38,3 +38,10 @@ ON customers.customer_id = orders.customer_id ;
 
 -- with query above we get an error ``Error: Column 'customer_id' in field list is ambiguous``
 -- because the "customer_id" exists on both tables and MySQL gets confused, from which table to select the column!
+
+-- Joining Across Databases
+
+SELECT *
+FROM order_items AS oi
+JOIN sql_inventory.products AS p
+  ON oi.product_id = p.product_id

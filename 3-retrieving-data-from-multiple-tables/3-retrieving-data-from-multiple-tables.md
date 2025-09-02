@@ -296,3 +296,15 @@ LIMIT 100;
 - Remember the execution order: FROM/JOIN → WHERE → SELECT → ORDER BY → LIMIT.
 
 - That’s why you can use table columns in WHERE, but can’t use a SELECT-alias there (the alias doesn’t exist yet).
+
+## Joining Across Databases
+
+To join tables across databases you need to prefix the tables with the name of their database! and only required for the tables that are not in the currently selected database
+
+```sql
+SELECT *
+FROM order_items AS oi
+JOIN sql_inventory.products AS p
+  ON oi.product_id = p.product_id
+
+```
