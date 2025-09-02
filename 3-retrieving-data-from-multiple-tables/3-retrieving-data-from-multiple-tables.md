@@ -308,3 +308,88 @@ JOIN sql_inventory.products AS p
   ON oi.product_id = p.product_id
 
 ```
+
+## Self Joins
+
+# 1. What is a **Self-Join**?
+
+A **self-join** is when you join a table with itself.
+
+- It’s the same physical table, but you treat it as if it were **two different tables** by giving each one an **alias**.
+- This is useful when rows in a table relate to **other rows in the same table**.
+
+---
+
+# 2. Example Scenario — Employees & Managers
+
+Suppose we have an `employees` table:
+
+| emp_id | name    | manager_id |
+| ------ | ------- | ---------- |
+| 1      | Alice   | NULL       |
+| 2      | Bob     | 1          |
+| 3      | Charlie | 1          |
+| 4      | David   | 2          |
+| 5      | Eve     | 2          |
+
+- `manager_id` points to the `emp_id` of that employee’s manager.
+- Alice (id=1) has `NULL` → she’s the CEO.
+- Bob and Charlie report to Alice.
+- David and Eve report to Bob.
+
+---
+
+# 3. Query: Show each employee with their manager’s name
+
+```sql
+SELECT e.name AS employee,
+       m.name AS manager
+FROM employees e
+JOIN employees m
+  ON e.manager_id = m.emp_id;
+```
+
+---
+
+### How it works line by line
+
+1. `FROM employees e` → first copy of the table, alias `e` (“employees”).
+2. `JOIN employees m` → second copy of the _same table_, alias `m` (“managers”).
+3. `ON e.manager_id = m.emp_id` → match each employee’s manager_id to the manager’s emp_id.
+4. `SELECT e.name AS employee, m.name AS manager` → pick out the two names, label them clearly.
+
+---
+
+### Result
+
+| employee | manager |
+| -------- | ------- |
+| Bob      | Alice   |
+| Charlie  | Alice   |
+| David    | Bob     |
+| Eve      | Bob     |
+
+✅ Notice Alice isn’t listed as an employee because she has no manager (`NULL` didn’t match anything).
+
+---
+
+# 4. Why aliases are critical in a self-join
+
+If you just wrote `SELECT name` without prefixes, SQL wouldn’t know whether you mean employee name or manager name — both come from the same table.
+👉 That’s why you **must** use aliases (`e`, `m`) in self-joins.
+
+---
+
+# 5. Other real-life uses of self-joins
+
+- **Hierarchy data**: managers & employees, categories & subcategories.
+- **Comparisons within a table**: e.g., find pairs of students from the same city.
+- **Detect duplicates**: compare a row against others in the same table.
+
+---
+
+✅ **Summary**
+
+- A **self-join** is just a regular join, but with the _same_ table on both sides.
+- Use **aliases** to treat them as two tables.
+- Very useful for hierarchical or relational data inside one table.

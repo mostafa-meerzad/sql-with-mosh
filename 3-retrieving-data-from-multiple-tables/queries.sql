@@ -44,4 +44,17 @@ ON customers.customer_id = orders.customer_id ;
 SELECT *
 FROM order_items AS oi
 JOIN sql_inventory.products AS p
-  ON oi.product_id = p.product_id
+  ON oi.product_id = p.product_id;
+
+
+USE sql_hr;
+
+SELECT *
+FROM employees e
+JOIN employees m
+  ON e.reports_to = m.employee_id
+
+SELECT e.first_name, e.employee_id, e.reports_to
+FROM employees e
+JOIN employees m
+  ON e.reports_to = m.employee_id
