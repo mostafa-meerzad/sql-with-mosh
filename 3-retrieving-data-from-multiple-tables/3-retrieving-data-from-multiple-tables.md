@@ -433,3 +433,18 @@ JOIN order_item_notes oin
   ON oi.order_id = oin.order_id
   AND oi.product_id = oin.product_id;
 ```
+
+## Implicit Join Syntax (not recommended)
+
+In `MySQL` you can implicitly join tables, as following:
+
+```sql
+SELECT *
+FROM orders o, customers c
+WHERE o.customer_id = c.customer_id
+
+```
+
+but this method is not recommended and you should never use it.
+
+**Note**: if you forget the `WHERE` clause you would get a `cross join` instead of an `inner` join.
