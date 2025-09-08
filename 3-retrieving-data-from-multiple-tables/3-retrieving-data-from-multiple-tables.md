@@ -421,3 +421,15 @@ JOIN order_statuses os
   ON o.status = os.order_status_id
 
 ```
+
+## Compound Join Conditions
+
+sometimes a table's primary-key is not enough to perform a `JOIN` operation, for example:
+in our `order_items` table for each record we have `order-id` and `product-id` that have repeated values! in order to uniquely represent each row we need to use logical `AND`/`OR` operators when joining with these tables.
+
+```sql
+SELECT * FROM order_items oi
+JOIN order_item_notes oin
+  ON oi.order_id = oin.order_id
+  AND oi.product_id = oin.product_id;
+```
