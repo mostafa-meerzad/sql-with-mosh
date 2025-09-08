@@ -83,3 +83,11 @@ JOIN order_item_notes oin
 SELECT *
 FROM orders o, customers c
 WHERE o.customer_id = c.customer_id
+
+
+-- Outer Joins
+USE sql_store;
+SELECT p.product_id, p.name, oi.quantity
+FROM products p
+LEFT JOIN order_items oi
+  ON p.product_id = oi.product_id;

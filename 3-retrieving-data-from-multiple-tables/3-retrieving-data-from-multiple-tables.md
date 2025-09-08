@@ -448,3 +448,94 @@ WHERE o.customer_id = c.customer_id
 but this method is not recommended and you should never use it.
 
 **Note**: if you forget the `WHERE` clause you would get a `cross join` instead of an `inner` join.
+
+## Outer Joins
+
+# 1. Recap: INNER JOIN
+
+- **INNER JOIN** only returns rows where there’s a match in **both** tables.
+- Example: Users who have placed at least one order.
+  👉 But what if we also want users who have **no orders**? That’s where OUTER JOIN comes in.
+
+---
+
+# 2. What is an OUTER JOIN?
+
+An **OUTER JOIN** returns not only the matching rows, but also the **unmatched rows from one or both tables**.
+
+There are **three types**:
+
+1. **LEFT OUTER JOIN** (or just `LEFT JOIN`)
+2. **RIGHT OUTER JOIN** (or just `RIGHT JOIN`)
+3. **FULL OUTER JOIN** (not directly supported in MySQL, but we’ll cover a trick later).
+
+---
+
+# 3. LEFT OUTER JOIN (most common)
+
+👉 Returns **all rows from the left table**, plus matching rows from the right.
+👉 If there’s no match, you still get the left table row, but the right side becomes `NULL`.
+
+### Example
+
+**Users table**
+
+| user\_id | name    |
+| -------- | ------- |
+| 1        | Alice   |
+| 2        | Bob     |
+| 3        | Charlie |
+
+**Orders table**
+
+| order\_id | user\_id | product |
+| --------- | -------- | ------- |
+| 101       | 1        | Laptop  |
+| 102       | 2        | Phone   |
+
+### Query
+
+```sql
+SELECT u.user_id, u.name, o.product
+FROM users u
+LEFT JOIN orders o
+  ON u.user_id = o.user_id;
+```
+
+### Result
+
+| user\_id | name    | product |
+| -------- | ------- | ------- |
+| 1        | Alice   | Laptop  |
+| 2        | Bob     | Phone   |
+| 3        | Charlie | NULL    |
+
+✅ Charlie is shown, even though he has no order.
+
+---
+
+# 4. RIGHT OUTER JOIN
+
+👉 The opposite: return **all rows from the right table**, plus matching rows from the left.
+👉 If no match, left side becomes `NULL`.
+
+Same query but with RIGHT JOIN:
+
+```sql
+SELECT u.user_id, u.name, o.product
+FROM users u
+RIGHT JOIN orders o
+  ON u.user_id = o.user_id;
+```
+
+### Result
+
+| user\_id | name  | product |
+| -------- | ----- | ------- |
+| 1        | Alice | Laptop  |
+| 2        | Bob   | Phone   |
+
+- Charlie disappears (because he’s only in `users`).
+- If there were an order with `user_id=999` that doesn’t exist in `users`, it would still show up → with `NULL` for the user columns.
+
+---
